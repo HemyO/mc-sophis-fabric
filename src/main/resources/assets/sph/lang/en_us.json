@@ -1,0 +1,13 @@
+{
+    "A": "MATERIAL_ORE",
+    "item.sph.raw_sphalerite": "Raw Sphalerite",
+    "item.sph.raw_iron_meteorite": "Raw Iron Meteorite",
+    "item.sph.raw_pentlandite": "Raw Pentlandite",
+    "item.sph.raw_hematile": "Raw Hematile",
+    "item.sph.raw_siderite": "Raw Siderite",
+    "item.sph.raw_pyrite": "Raw Pyrite",
+    "item.sph.raw.argentite": "Raw Argentite",
+    "item.sph.raw_cerargyrite": "Raw Cerargyrite",
+    "item.sph.raw_electrum": "Raw Electrum",
+    "item.sph.raw_galena": "Raw Galena"
+}

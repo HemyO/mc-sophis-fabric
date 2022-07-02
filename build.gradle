@@ -1,0 +1,75 @@
+//file:noinspection GradlePackageVersionRange
+plugins {
+    id 'fabric-loom' version '0.12-SNAPSHOT'
+    id 'maven-publish'
+    id 'org.jetbrains.kotlin.jvm' version '1.7.0'
+}
+
+archivesBaseName = 'SOPHIS-THE-OBLIVION-OF-VANILLA'
+version = '0.0.1'
+group = 'hm.o.sph'
+
+repositories { mavenCentral() }
+
+dependencies {
+    minecraft 'com.mojang:minecraft:1.19'
+    mappings 'net.fabricmc:yarn:1.19+build.4:v2'
+    modImplementation 'net.fabricmc:fabric-loader:0.14.8'
+    modImplementation 'net.fabricmc.fabric-api:fabric-api:0.57.0+1.19'
+    modImplementation 'net.fabricmc:fabric-language-kotlin:1.8.1+kotlin.1.7.0'
+
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.3'
+    include 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.3'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.13.3'
+    include 'com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.13.3'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'
+    include 'com.fasterxml.jackson.core:jackson-core:2.13.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+    include 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
+    include 'com.fast' +
+            'erxml.jackson.core:jackson-annotations:2.13.3'
+    implementation 'org.yaml:snakeyaml:1.30'
+    include 'org.yaml:snakeyaml:1.30'
+}
+
+processResources {
+    inputs.property "version", project.version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+def targetJavaVersion = 17
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        it.options.release = targetJavaVersion
+    }
+}
+
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+    withSourcesJar()
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+    }
+}

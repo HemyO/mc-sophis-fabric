@@ -1,0 +1,33 @@
+{
+    "schemaVersion": 1,
+    "id": "sph",
+    "version": "${version}",
+    "name": "§e§lSOPHIS - THE OBLIVION OF VANILLA§r",
+    "description": "",
+    "authors": [
+        "HemyO_"
+    ],
+    "contact": {},
+    "license": "Apache-2.0",
+    "icon": "assets/sph/brands/icon.png",
+    "entrypoints": {
+        "main": [
+            {
+                "adapter": "kotlin",
+                "value": "hm.o.sph.Sophis::init"
+            }
+        ]
+    },
+    "mixins": [
+        "sph.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.14.8",
+        "fabric": "*",
+        "minecraft": "1.19",
+        "java": ">=17"
+    },
+    "suggests": {
+        "modmenu": "*"
+    }
+}
