@@ -9,5 +9,7 @@
     "item.sph.raw.argentite": "Raw Argentite",
     "item.sph.raw_cerargyrite": "Raw Cerargyrite",
     "item.sph.raw_electrum": "Raw Electrum",
-    "item.sph.raw_galena": "Raw Galena"
+    "item.sph.raw_galena": "Raw Galena",
+    "item.sph.sphalerite": "Sphalerite",
+    "tooltip.sph.sphalerite.category": "%sMaterial Ore"
 }

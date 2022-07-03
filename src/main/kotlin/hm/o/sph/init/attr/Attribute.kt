@@ -5,8 +5,6 @@ import net.minecraft.util.registry.RegistryEntry
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import kotlin.random.Random
-import kotlin.comparisons.minOf
-import kotlin.comparisons.maxOf
 
 class Attribute {
     val entry: RegistryEntry<Attribute> by lazy {
