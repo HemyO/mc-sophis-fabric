@@ -9,10 +9,10 @@ import net.minecraft.world.World
 
 open class SophisItem(
     settings: Settings,
-    protected open val id: String,
-    protected open val category: Category,
-    protected open val credit: Int,
-    protected open val rarity: Rarity
+    open val id: String,
+    open val category: SophisCategory,
+    open val credit: Int,
+    open val rarity: Rarity
 ) : Item(settings) {
     override fun appendTooltip(
         stack: ItemStack?,
@@ -20,15 +20,17 @@ open class SophisItem(
         tooltip: MutableList<Text>?,
         context: TooltipContext?
     ) {
-        tooltip?.add(Text.translatable(genDivide))
+
+
     }
 }
 
 open class EquipmentItem(
     settings: Settings,
-    protected open val basicAttrs: MutableSet<String>,
+    open val basicAttrs: MutableSet<String>,
+    open val droppable: Boolean,
     override val id: String,
-    override val category: Category,
+    override val category: SophisCategory,
     override val credit: Int,
     override val rarity: Rarity
 ) : SophisItem(settings, id, category, credit, rarity) {

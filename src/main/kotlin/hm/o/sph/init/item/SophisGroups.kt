@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.util.Identifier.of
 
-object Groups {
+object SophisGroups {
 
     val UNDEF: ItemGroup = build(of(MODID, "undef")) { ItemStack(Items.BONE)}
     val MATERIAL: ItemGroup = build(of(MODID, "material")) { ItemStack(Items.BONE) }

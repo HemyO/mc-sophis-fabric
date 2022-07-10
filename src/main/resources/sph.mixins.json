@@ -4,6 +4,7 @@
     "package": "hm.o.sph.mixin",
     "compatibilityLevel": "JAVA_17",
     "mixins": [
+        "VanillaTooltipMixin"
     ],
     "client": [
     ],
