@@ -13,6 +13,7 @@
     "item.sph.sphalerite": "Sphalerite",
 
     "B": "Tooltip",
+    "tooltip.sph.test_long": "Whisper falling silently, drift on the wind, but I hear you.",
     "tooltip.sph.category.undef": "Undefinition",
     "tooltip.sph.category.vanilla": "Vanilla",
     "tooltip.sph.category.ore": "Material • Ore",

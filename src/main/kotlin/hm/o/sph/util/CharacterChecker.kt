@@ -1,6 +1,8 @@
 package hm.o.sph.util
 
-data class SpecialChar(val value: Char) {
+import java.util.regex.Pattern
+
+data class CharacterChecker(val value: Char) {
     override fun toString(): String {
         return value.toString()
     }
@@ -35,38 +37,62 @@ data class SpecialChar(val value: Char) {
      * @property FW_EXCLAMATION_MARK It' s full-width exclamation mark '！' that use on **ZH** and **JP**.
      */
     companion object Of {
-        val LATIN_SPACE = SpecialChar('\u0020')
-        val CJ_SPACE = SpecialChar('\u3000')
-        val isSpaceChar = { tip: Char ->
-            when (tip) {
+        val LATIN_SPACE = CharacterChecker('\u0020')
+        val CJ_SPACE = CharacterChecker('\u3000')
+        val isSpaceChar = { char: Char ->
+            when (char) {
                 LATIN_SPACE.value, CJ_SPACE.value -> true
                 else -> false
             }
         }
-        val ZH_COMMA = SpecialChar('\uFF0C')
-        val CJ_COMMA = SpecialChar('\u3001')
-        val CJ_STOP = SpecialChar('\u3002')
-        val FW_COLON = SpecialChar('\uFF1A')
-        val FW_SEMICOLON = SpecialChar('\uFF1B')
-        val ELLIPSIS = SpecialChar('\u2026')
-        val EM_DASH = SpecialChar('\u2014')
-        val FW_DASH = SpecialChar('\uFF5E')
-        val JP_DASH = SpecialChar('\u301C')
-        val ZH_INTERPUNCT = SpecialChar('\u00B7')
-        val ZH_FW_INTERPUNCT = SpecialChar('\uFF0E')
-        val JP_INTERPUNCT = SpecialChar('\u30FB')
-        val JP_DOUBLE_HYPHEN = SpecialChar('\u30A0')
-        val FW_DOUBLE_HYPHEN = SpecialChar('\uFF1D')
-        val FW_QUESTION_MARK = SpecialChar('\uFF1F')
-        val FW_EXCLAMATION_MARK = SpecialChar('\uFF01')
-        val isLastPlacedPunctuation = { tip: Char ->
-            when(tip) {
-                ZH_COMMA.value, CJ_COMMA.value, CJ_STOP.value, FW_COLON.value, FW_SEMICOLON.value, ELLIPSIS.value,
-                EM_DASH.value, FW_DASH.value, JP_DASH.value, ZH_INTERPUNCT.value, ZH_FW_INTERPUNCT.value,
-                JP_INTERPUNCT.value, JP_DOUBLE_HYPHEN.value, FW_DOUBLE_HYPHEN.value, FW_QUESTION_MARK.value,
-                FW_EXCLAMATION_MARK.value -> true
-                else -> false
-            }
+
+        val lastPlacedCharLs = {
+            val tmp = mutableListOf<Char>()
+            LATIN_SPACE joinTo tmp
+            CJ_SPACE joinTo tmp
+            ZH_COMMA joinTo tmp
+            CJ_COMMA joinTo tmp
+            CJ_STOP joinTo tmp
+            FW_COLON joinTo tmp
+            FW_SEMICOLON joinTo tmp
+            ELLIPSIS joinTo tmp
+            EM_DASH joinTo tmp
+            FW_DASH joinTo tmp
+            JP_DASH joinTo tmp
+            ZH_INTERPUNCT joinTo tmp
+            ZH_FW_INTERPUNCT joinTo tmp
+            JP_INTERPUNCT joinTo tmp
+            JP_DOUBLE_HYPHEN joinTo tmp
+            FW_DOUBLE_HYPHEN joinTo tmp
+            FW_QUESTION_MARK joinTo tmp
+            FW_EXCLAMATION_MARK joinTo tmp
+            tmp.toList()
+        }
+
+        private infix fun CharacterChecker.joinTo(list: MutableList<Char>) {
+            list += this.value
+        }
+
+        val ZH_COMMA = CharacterChecker('\uFF0C')
+        val CJ_COMMA = CharacterChecker('\u3001')
+        val CJ_STOP = CharacterChecker('\u3002')
+        val FW_COLON = CharacterChecker('\uFF1A')
+        val FW_SEMICOLON = CharacterChecker('\uFF1B')
+        val ELLIPSIS = CharacterChecker('\u2026')
+        val EM_DASH = CharacterChecker('\u2014')
+        val FW_DASH = CharacterChecker('\uFF5E')
+        val JP_DASH = CharacterChecker('\u301C')
+        val ZH_INTERPUNCT = CharacterChecker('\u00B7')
+        val ZH_FW_INTERPUNCT = CharacterChecker('\uFF0E')
+        val JP_INTERPUNCT = CharacterChecker('\u30FB')
+        val JP_DOUBLE_HYPHEN = CharacterChecker('\u30A0')
+        val FW_DOUBLE_HYPHEN = CharacterChecker('\uFF1D')
+        val FW_QUESTION_MARK = CharacterChecker('\uFF1F')
+        val FW_EXCLAMATION_MARK = CharacterChecker('\uFF01')
+
+        val hasCJK = { string: String ->
+            val isCJK = Pattern.compile("[\\p{IsHan}\\p{IsHangul}\\p{IsKatakana}\\p{IsHiragana}]")
+            isCJK.matcher(string).find()
         }
     }
 }
