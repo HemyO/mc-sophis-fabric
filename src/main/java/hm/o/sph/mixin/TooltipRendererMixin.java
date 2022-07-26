@@ -1,4 +1,4 @@
-package hm.o.sph.mixin.bundle.kyrptonaught.tooltipfix;
+package hm.o.sph.mixin;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;

@@ -16,8 +16,8 @@ import kotlin.collections.ArrayList
  */
 object TooltipFixer {
 
-    var x: Int = 0
-    var width: Int = 0
+    private var x: Int = 0
+    private var width: Int = 0
     private var mouseX = 0
     private var reversed = false
 
@@ -31,23 +31,20 @@ object TooltipFixer {
     @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
     fun fix(textResource: List<Text>, renderer: TextRenderer): ArrayList<Text> {
         val text = ArrayList(textResource)
-        if (!reversed && x > width / 2) {
-            reversed = true
-            return fix(text, renderer)
-        }
-        if (text.size > 1) {
-            val fintxt = arrayListOf<Text>()
+        val fintxt = arrayListOf<Text>()
+        val currln = StringBuilder()
 
-            val currln = StringBuilder()
-            val nextln = StringBuilder()
-            for (i in 0 until text.size) {
+        if (!reversed && x > width / 2) { reversed = true; return fix(text, renderer) }
+
+        if (text.size > 1) {
+            outside@for (i in 0 until text.size) {
                 val style = text[i].style
-                if (i == 0) {
-                    fintxt += text[i]
-                    continue
-                }
-                // 第0項是特殊狀況
-                if (text[i].string.hasCJK) {
+
+                /*if (text[i].string.hasCJK) {
+                    if (i == 0) {
+                        fintxt += text[i]
+                        continue
+                    }
                     val sentences = ArrayList(text[i].string cut lastPlacedCharLs().string)
                     if (sentences.isEmpty()) return text
                     currln.append(sentences.removeAt(0))
@@ -75,23 +72,20 @@ object TooltipFixer {
                         currln.deleteCharAt(currln.length - 1)
                     } while (currln.toString() isTightOn renderer)
                     continue
-                }
-                val sentences = ArrayList(text[i].string cut " ")
+                }*/
+                val sentences = ArrayList(text[i].string.split(" ") )
                 if (sentences.isEmpty()) return text
-                currln.append(sentences.removeAt(0) + sentences.removeAt(0))
                 do {
-                    currln.toString().info()
-                    renderer.getWidth("on the wind, but I hear ").toString().info()
-                    if (currln.toString() + sentences.head isTightOn renderer || sentences.size == 1) {
-                        if (sentences.size == 1) currln.append(sentences.removeAt(0))
+                    if (sentences.size == 1 || currln.toString() + " " + sentences.head isTightOn renderer) {
+                        if (sentences.size == 1) {
+                            if (currln.toString() + " " + sentences.head isTightOn renderer) { fintxt += literal(currln.toString()).setStyle(style); currln.clear() }
+                            currln.append(sentences.removeAt(0))
+                        }
                         fintxt += literal(currln.toString()).setStyle(style)
-                        "from result => ${fintxt.last.string}".info()
                         currln.clear()
-                        if (sentences.size == 0) break
-                        currln.append(sentences.removeAt(0) + sentences.removeAt(0))
-                        "from next => $currln".info()
+                        if (sentences.size == 0) continue@outside
                     }
-                    currln.append(sentences.removeAt(0) + sentences.removeAt(0)) // Last no space
+                    currln.append("${sentences.removeAt(0)} ")
                 } while (currln.toString() isLooseOn renderer)
             }
             return fintxt

@@ -7,7 +7,7 @@
         "VanillaTooltipMixin"
     ],
     "client": [
-        "bundle.kyrptonaught.tooltipfix.TooltipRendererMixin"
+        "TooltipRendererMixin"
     ],
     "injectors": {
         "defaultRequire": 1
