@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package hm.o.sph.util
 
 inline val <T> List<T>.head get() = first()

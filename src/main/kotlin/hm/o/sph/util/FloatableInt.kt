@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package hm.o.sph.util
 
 import kotlin.math.absoluteValue
@@ -11,10 +13,10 @@ import kotlin.math.absoluteValue
  * Float case: `5.125` → `FloatableInt(5125)`
  */
 data class FloatableInt(val value: Int) {
-    val toInt = value / 1000
-    val toLong = toInt.toLong()
-    val toFloat = value / 1000F
-    val toDouble = toFloat.toDouble()
+    val int = value / 1000
+    val long = int.toLong()
+    val float = value / 1000F
+    val double = float.toDouble()
 }
 
 val Int.toFloatableInt: FloatableInt get() = FloatableInt(absoluteValue * 1000)

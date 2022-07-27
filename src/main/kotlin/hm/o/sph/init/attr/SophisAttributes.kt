@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package hm.o.sph.init.attr
 
 import hm.o.sph.init.attr.NumberMode.*
