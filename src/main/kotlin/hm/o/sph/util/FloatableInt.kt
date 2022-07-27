@@ -17,14 +17,10 @@ data class FloatableInt(val value: Int) {
     val toDouble = toFloat.toDouble()
 }
 
-val Int.toFloatableInt: FloatableInt
-    get() = FloatableInt(absoluteValue * 1000)
+val Int.toFloatableInt: FloatableInt get() = FloatableInt(absoluteValue * 1000)
 
-val Long.toFloatableInt: FloatableInt
-    get() = FloatableInt((absoluteValue * 1000).toInt())
+val Long.toFloatableInt: FloatableInt get() = FloatableInt((absoluteValue * 1000).toInt())
 
-val Float.toFloatableInt: FloatableInt
-    get() = FloatableInt((absoluteValue * 1000).toInt())
+val Float.toFloatableInt: FloatableInt get() = FloatableInt((absoluteValue * 1000).toInt())
 
-val Double.toFloatableInt: FloatableInt
-    get() = FloatableInt((absoluteValue * 1000).toInt())
+val Double.toFloatableInt: FloatableInt get() = FloatableInt((absoluteValue * 1000).toInt())

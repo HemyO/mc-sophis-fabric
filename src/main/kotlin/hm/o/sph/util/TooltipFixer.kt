@@ -2,11 +2,13 @@
 
 package hm.o.sph.util
 
-import hm.o.sph.util.CharacterChecker.Of.lastPlacedCharLs
+import hm.o.sph.util.TooltipFixer.mouseX
+import hm.o.sph.util.TooltipFixer.reversed
+import hm.o.sph.util.TooltipFixer.width
+import hm.o.sph.util.TooltipFixer.x
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.text.Text
 import net.minecraft.text.Text.literal
-import kotlin.collections.ArrayList
 
 /**
  * @property x The rendering position of tooltip component.
@@ -33,59 +35,24 @@ object TooltipFixer {
         val text = ArrayList(textResource)
         val fintxt = arrayListOf<Text>()
         val currln = StringBuilder()
-
         if (!reversed && x > width / 2) { reversed = true; return fix(text, renderer) }
-
         if (text.size > 1) {
             outside@for (i in 0 until text.size) {
                 val style = text[i].style
-
-                /*if (text[i].string.hasCJK) {
-                    if (i == 0) {
-                        fintxt += text[i]
-                        continue
-                    }
-                    val sentences = ArrayList(text[i].string cut lastPlacedCharLs().string)
-                    if (sentences.isEmpty()) return text
-                    currln.append(sentences.removeAt(0))
-                    do {
-                        if (currln.toString() isLooseOn renderer) {
-                            val punchar = sentences.removeAt(0)
-                            if (currln.toString() + punchar isTightOn renderer) {
-                                nextln.append(punchar)
-                                nextln.append(currln.last())
-                                currln.deleteCharAt(currln.length - 1)
-                                fintxt += literal(currln.toString()).setStyle(style)
-                                currln.clear()
-                                currln.append(nextln.reverse())
-                            } else {
-                                fintxt += literal(currln.toString() + punchar).setStyle(style)
-                                currln.clear()
-                                currln.append(nextln.reverse())
-                            }
-                            fintxt += literal(currln.toString() + punchar).setStyle(style) // ..
-                            currln.clear()
-                            currln.append(nextln.reverse())
-                            break
-                        }
-                        nextln.append(currln.last())
-                        currln.deleteCharAt(currln.length - 1)
-                    } while (currln.toString() isTightOn renderer)
-                    continue
-                }*/
-                val sentences = ArrayList(text[i].string.split(" ") )
+                val isCJK = text[i].string.hasCJK
+                val sentences = ArrayList(if (isCJK) text[i].string.toMutableList().map(Char::toString).toMutableList() else text[i].string.split(" "))
                 if (sentences.isEmpty()) return text
                 do {
-                    if (sentences.size == 1 || currln.toString() + " " + sentences.head isTightOn renderer) {
+                    if (sentences.size == 1 || "$currln ${sentences.head}" isTightOn renderer) {
                         if (sentences.size == 1) {
-                            if (currln.toString() + " " + sentences.head isTightOn renderer) { fintxt += literal(currln.toString()).setStyle(style); currln.clear() }
-                            currln.append(sentences.removeAt(0))
+                            if ("$currln ${sentences.head}" isTightOn renderer) { fintxt += literal(currln.toString()).setStyle(style); currln.clear() }
+                            currln.append(sentences.rmhead)
                         }
                         fintxt += literal(currln.toString()).setStyle(style)
                         currln.clear()
                         if (sentences.size == 0) continue@outside
                     }
-                    currln.append("${sentences.removeAt(0)} ")
+                    currln.append("${sentences.rmhead}${if (isCJK) "" else " "}")
                 } while (currln.toString() isLooseOn renderer)
             }
             return fintxt
@@ -93,17 +60,7 @@ object TooltipFixer {
         return text
     }
 
-    private infix fun String.isTightOn(renderer: TextRenderer): Boolean {
-        return renderer.getWidth(this) > 150
-    }
+    private infix fun String.isTightOn(renderer: TextRenderer): Boolean { return renderer.getWidth(this) > 150 }
 
-    private infix fun String.isLooseOn(renderer: TextRenderer): Boolean {
-        return renderer.getWidth(this) <= 150
-    }
-
-    private inline val String.hasCJK: Boolean
-        get() = CharacterChecker.hasCJK(this)
-
-    private inline val Char.isLastPlaced: Boolean
-        get() = this in lastPlacedCharLs()
+    private infix fun String.isLooseOn(renderer: TextRenderer): Boolean { return renderer.getWidth(this) <= 150 }
 }
